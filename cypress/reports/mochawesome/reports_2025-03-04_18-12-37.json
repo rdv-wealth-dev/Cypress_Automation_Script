@@ -1,0 +1,128 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-03-04T12:42:01.531Z",
+    "end": "2025-03-04T12:42:37.408Z",
+    "duration": 35877,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "863b4852-69fd-4f45-890f-c7452b31c11b",
+      "title": "",
+      "fullFile": "cypress\\e2e\\wealth_MutualFundReport.cy.js",
+      "file": "cypress\\e2e\\wealth_MutualFundReport.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b13dee7a-694f-4905-83df-4770df67f5fe",
+          "title": "Mutual Fund Report",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should validate web report data and extract onclick values",
+              "fullTitle": "Mutual Fund Report should validate web report data and extract onclick values",
+              "timedOut": null,
+              "duration": 31783,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Visit the login page and log in\ncy.visit('https://wealthelite.in/arn-login');\ncy.get('input[name=\"username\"]').type('redmoneyindore', {\n  force: true\n});\ncy.get('input[name=\"password\"]').type('Abdul@123', {\n  force: true\n});\ncy.get('button[type=\"submit\"]').click();\ncy.wait(4000);\ncy.get('button.btn-modal-dismiss').click();\n// Navigate through the website and generate the report\ncy.get('#WealthReport__NavItem > span').click({\n  force: true\n});\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#clientSearchLabelDiv > div.col-md-8 > div').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// Trigger the report/valuation\ncy.get('#btn_web.btn.btn-success.vscroll').click();\ncy.wait(7000);\n//End the\n// For the Mutual Fund section in the report\ncy.get('#mutualSectionHead_8733 > .m-tab').click();\ncy.get('#liveportfoliocontent8733').click();\n// Extract data from the web page for mutual fund report\ncy.get('#liveportfoliocontent8733').find('table').find('tbody').children('tr').not('.sh-panel.dn') // Skip rows with class 'sh-panel dn'\n.each($row => {\n  let mutualFundRowData = {};\n  cy.wrap($row).find('td').each(($cell, cellIndex) => {\n    const cellText = $cell.text().trim();\n    switch (cellIndex) {\n      case 0:\n        // Extract SchemeName, FolioNumber, and ARNNo from the cell text\n        let schemeName = $cell.find('p.show-fund-more b').text().trim();\n        const folioNumber = $cell.find('p:contains(\"Folio\") b').text().trim();\n        const arnNo = $cell.find('p:contains(\"ARN No\") b').text().trim();\n        // Remove the text after (G) but keep (G) itself\n        schemeName = schemeName.replace(/\\(G\\)(.*)$/, '(G)');\n        mutualFundRowData.SchemeName = schemeName;\n        mutualFundRowData.FolioNumber = folioNumber;\n        mutualFundRowData.ARNNo = arnNo;\n        break;\n      case 1:\n        mutualFundRowData.InvSince = cellText;\n        break;\n      case 2:\n        mutualFundRowData.Sensex = cellText;\n        break;\n      case 3:\n        // Replace comma with blank for InvCost\n        const newInvCost = cellText.replace(/,/g, \"\");\n        mutualFundRowData.InvCost = newInvCost;\n        break;\n      case 4:\n        mutualFundRowData.DivR = cellText;\n        break;\n      case 5:\n        // Replace comma with blank for Units\n        const newUnits = cellText.replace(/,/g, \"\");\n        mutualFundRowData.Units = newUnits;\n        break;\n      case 6:\n        mutualFundRowData.PurNav = cellText;\n        break;\n      case 7:\n        mutualFundRowData.CurNav = cellText;\n        break;\n      case 8:\n        mutualFundRowData.NavDate = cellText;\n        break;\n      case 9:\n        // Replace comma with blank for CurValue (Remove commas but keep the decimal)\n        const newCurValue = cellText.replace(/,/g, \"\");\n        mutualFundRowData.CurValue = newCurValue;\n        break;\n      case 10:\n        mutualFundRowData.DivReinv = cellText;\n        break;\n      case 11:\n        mutualFundRowData.DivPaid = cellText;\n        break;\n      case 12:\n        // Replace comma with blank for Total\n        const newTotal = cellText.replace(/,/g, \"\");\n        mutualFundRowData.Total = newTotal;\n        break;\n      case 13:\n        // Replace comma with blank for GainLoss\n        const newGainLoss = cellText.replace(/,/g, \"\");\n        mutualFundRowData.GainLoss = newGainLoss;\n        break;\n      case 14:\n        mutualFundRowData.AbsRtn = cellText;\n        break;\n      case 15:\n        mutualFundRowData.XIRR = cellText;\n        break;\n    }\n  });\n  allMutualFundValues.push(mutualFundRowData);\n});\ncy.then(() => {\n  cy.log('MutualFund all Data :', allMutualFundValues);\n});\n// Extract Pcodes from the onclick attribute\ncy.get('#liveportfoliocontent8733').find('table').find('tbody').children('tr').each($row => {\n  cy.wrap($row).xpath(\"//p[contains(@class, 'show-fund-more')]\").each($p => {\n    cy.wrap($p).invoke('attr', 'onclick') // Get the 'onclick' attribute value\n    .then(PCode => {\n      const regex = /showTrans\\('\\d+_([A-Za-z0-9]+)_\\d{4}'\\)/;\n      const match = PCode.match(regex);\n      if (match) {\n        const extractedValue = match[1];\n        // Push this value into the array\n        PCodeValues.push(extractedValue);\n      }\n    });\n  });\n});\ncy.then(() => {\n  // Remove duplicate values from the array\n  const uniqueValues = [...new Set(PCodeValues)];\n  cy.log('Extracted PcodeValues:', uniqueValues.join(', ')); // Log all extracted values as a comma-separated list\n  cy.log('Extracted PcodeValues:', uniqueValues);\n});",
+              "err": {},
+              "uuid": "c8270f96-65d9-4845-a590-3594280bb072",
+              "parentUUID": "b13dee7a-694f-4905-83df-4770df67f5fe",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should successfully connect to MongoDB and fetch data from asset_report collection",
+              "fullTitle": "Mutual Fund Report should successfully connect to MongoDB and fetch data from asset_report collection",
+              "timedOut": null,
+              "duration": 665,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const {\n  collectionName1,\n  whereCondition1\n} = dbMongoConfig.mongoconfig;\n// Log the arguments to verify they are correct\ncy.log(`Collection: ${collectionName1}`);\ncy.log(`Query: ${JSON.stringify(whereCondition1)}`);\ncy.task('testMongoConnection', {\n  collectionName: collectionName1,\n  whereCondition: JSON.stringify(whereCondition1)\n}).then(result => {\n  cy.log(\"result\", result);\n  cy.log('MutualFund all Data :', allMutualFundValues);\n  // Check if the connection was successful\n  if (result && result.success !== undefined && result.message !== undefined) {\n    expect(result.success, result.message).to.be.true;\n    if (result.success) {\n      // Continue with your assertion logic\n      let matchedRecords = [];\n      let mismatchedRecords = [];\n      allMutualFundValues.sort((a, b) => {\n        if (a.SchemeName < b.SchemeName) return -1;\n        if (a.SchemeName > b.SchemeName) return 1;\n        return a.FolioNumber < b.FolioNumber ? -1 : 1; // secondary sort on FolioNumber\n      });\n      result.data.sort((a, b) => {\n        if (a.fundDesc < b.fundDesc) return -1;\n        if (a.fundDesc > b.fundDesc) return 1;\n        return a.folio < b.folio ? -1 : 1; // secondary sort on FolioNumber\n      });\n      let isMatch;\n      let row = {};\n      let tableData = {};\n      for (let index = 0; index < result.data.length; index++) {\n        row = result.data[index];\n        tableData = allMutualFundValues[index];\n        if (tableData.SchemeName === row.fundDesc && tableData.FolioNumber === row.folio) {\n          isMatch = true;\n        } else {\n          isMatch = false;\n        }\n        if (isMatch) {\n          matchedRecords.push(row); // Store matched data\n        } else {\n          mismatchedRecords.push(row); // Store mismatched data\n        }\n      }\n      cy.log('Matched Records:', matchedRecords);\n      cy.log('Mismatched Records:', mismatchedRecords);\n    }\n  } else {\n    cy.log('Invalid result object:', JSON.stringify(result));\n    throw new Error('Invalid result object');\n  }\n});",
+              "err": {},
+              "uuid": "db06fe57-b9fd-493e-8c42-6a08ae643eb1",
+              "parentUUID": "b13dee7a-694f-4905-83df-4770df67f5fe",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c8270f96-65d9-4845-a590-3594280bb072",
+            "db06fe57-b9fd-493e-8c42-6a08ae643eb1"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 32448,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "reports",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mochawesome/",
+        "reportFilename": "reports",
+        "html": true,
+        "json": true,
+        "overwrite": true,
+        "timestamp": "yyyy-mm-dd_HH-MM-ss",
+        "charts": true,
+        "inline": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

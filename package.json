@@ -1,0 +1,39 @@
+{
+  "name": "wealthelite",
+  "version": "1.0.0",
+  "description": "Automation_Script_Wealth_Elite",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx cypress run",
+    "cypress:run": "npx cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^13.17.0",
+    "cypress-xpath": "^2.0.1"
+  },
+  "dependencies": {
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "dotenv": "^16.4.7",
+    "mariadb": "^3.4.0",
+    "mongodb": "^6.13.0",
+    "mysql2": "^3.12.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
+  },
+  "author": "Ajay Datir",
+  "license": "MIT",
+  "cypress": {
+    "reporter": "mochawesome",
+    "reporterOptions": {
+      "reportDir": "cypress/reports/mochawesome/",
+      "reportFilename": "reports",
+      "html": true,
+      "json": true,
+      "overwrite": true,
+      "timestamp": "yyyy-mm-dd_HH-MM-ss",
+      "charts": true,
+      "inline": true
+    }
+  }
+}
