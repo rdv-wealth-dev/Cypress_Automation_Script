@@ -2,14 +2,30 @@ describe('Mutual Fund Dashboard', () => {
     beforeEach(() => {
 
         // Intercept and ignore specific requests
-        cy.intercept('GET', 'https://googleads.g.doubleclick.net/*', { statusCode: 200 }).as('googleAds');
-        cy.intercept('POST', 'https://jnn-pa.googleapis.com/*', { statusCode: 200 }).as('jnnPa');
-        cy.intercept('POST', 'https://www.youtube.com/youtubei/v1/log_event*', { statusCode: 200 }).as('youtubeLog');
-        cy.intercept('POST', 'https://play.google.com/log*', { statusCode: 200 }).as('playLog');
-        cy.intercept('POST', '/Universal/universal/notifications', { statusCode: 200 }).as('universalNotifications');
-        cy.visit('https://staging.wealthelite.in/arn-login');
+        // Intercepting and ignoring specific requests by returning a 200 status
+        cy.intercept('GET', 'https://googleads.g.doubleclick.net/*', (req) => {
+            req.reply({ statusCode: 200 });
+        }).as('googleAds');
+
+        cy.intercept('POST', 'https://jnn-pa.googleapis.com/*', (req) => {
+            req.reply({ statusCode: 200 });
+        }).as('jnnPa');
+
+        cy.intercept('POST', 'https://www.youtube.com/youtubei/v1/log_event*', (req) => {
+            req.reply({ statusCode: 200 });
+        }).as('youtubeLog');
+
+        cy.intercept('POST', 'https://play.google.com/log*', (req) => {
+            req.reply({ statusCode: 200 });
+        }).as('playLog');
+
+        cy.intercept('POST', '/Universal/universal/notifications', (req) => {
+            req.reply({ statusCode: 200 });
+        }).as('universalNotifications');
+
+        cy.visit('https://wealthelite.in/arn-login');
         cy.get('input[name="username"]').type('redmoneyindore', { force: true });
-        cy.get('input[name="password"]').type('Red@123', { force: true });
+        cy.get('input[name="password"]').type('Abdul@2347', { force: true });
         cy.get('button[type="submit"]').click();
         cy.get('#mutual__NavItem').click();
         cy.get('#main-content-wrapper > div > div > div:nth-child(1) > a').click();
@@ -325,41 +341,41 @@ describe('Mutual Fund Dashboard', () => {
                 cy.wrap($cell).should('be.visible').then(() => {
                     const cellText = $cell.text().trim();
                     cy.log(`Processing cell at index ${index}: ${cellText}`);
-                    
+
                     if (index === 1) {
                         const expectedInflow = parseFormattedValue(cellText);
                         const sumInflow = inflowData["Inflow"].reduce((acc, val) => acc + val, 0);
                         cy.log(`Calculated Inflow: ${sumInflow}, Expected Inflow: ${expectedInflow}`);
                         expect(Number(sumInflow)).to.equal(Number(expectedInflow));
                     } else if (index === 3) {
-                 const expectedRedemption = parseFormattedValue($cell.text().trim());
-                    const sumRedemption = redemptionData["Redemption"].reduce((acc, val) => acc + val, 0);
-                    expect(sumRedemption).to.equal(expectedRedemption); // Validate Redemption
-                } else if (index === 4) {
-                    const expectedSwitchOut = parseFormattedValue($cell.text().trim());
-                    const sumSwitchOut = switchOutData["Switch Out"].reduce((acc, val) =>
-                    expect(sumSwitchOut).to.equal(expectedSwitchOut))// Validate Switch Out
-                } else if (index === 5) {
-                    const expectedCurValue = parseFormattedValue($cell.text().trim());
-                    const sumCurValue = curValueData["Cur. Value"].reduce((acc, val) => acc + val, 0);
-                    expect(sumCurValue).to.equal(expectedCurValue); // Validate Current Value
-                } else if (index === 6) {
-                    const expectedGainLoss = parseFormattedValue($cell.text().trim());
-                    const sumGainLoss = gainLossData["Gain & Loss"].reduce((acc, val) => acc + val, 0);
-                    expect(sumGainLoss).to.equal(expectedGainLoss); // Validate Gain & Loss
-                } else if (index === 7) {
-                    const expectedAbsRtn = parseFormattedValue($cell.text().trim());
-                    const sumAbsRtn = absRtnData["Abs. Rtn."].reduce((acc, val) => acc + val, 0);
-                    const calculatedAbsRtn = (sumGainLoss / sumInflow) * 100; // Calculate Abs. Rtn.
-                    expect(calculatedAbsRtn).to.equal(expectedAbsRtn); // Validate Absolute Return
-                } else if (index === 8) {
-                    const expectedXIRR = parseFormattedValue($cell.text().trim());
-                    const sumXIRR = xirrData["XIRR"].reduce((acc, val) => acc + val, 0);
-                    expect(sumXIRR).to.equal(expectedXIRR); // Validate XIRR
-                }
+                        const expectedRedemption = parseFormattedValue($cell.text().trim());
+                        const sumRedemption = redemptionData["Redemption"].reduce((acc, val) => acc + val, 0);
+                        expect(sumRedemption).to.equal(expectedRedemption); // Validate Redemption
+                    } else if (index === 4) {
+                        const expectedSwitchOut = parseFormattedValue($cell.text().trim());
+                        const sumSwitchOut = switchOutData["Switch Out"].reduce((acc, val) =>
+                            expect(sumSwitchOut).to.equal(expectedSwitchOut))// Validate Switch Out
+                    } else if (index === 5) {
+                        const expectedCurValue = parseFormattedValue($cell.text().trim());
+                        const sumCurValue = curValueData["Cur. Value"].reduce((acc, val) => acc + val, 0);
+                        expect(sumCurValue).to.equal(expectedCurValue); // Validate Current Value
+                    } else if (index === 6) {
+                        const expectedGainLoss = parseFormattedValue($cell.text().trim());
+                        const sumGainLoss = gainLossData["Gain & Loss"].reduce((acc, val) => acc + val, 0);
+                        expect(sumGainLoss).to.equal(expectedGainLoss); // Validate Gain & Loss
+                    } else if (index === 7) {
+                        const expectedAbsRtn = parseFormattedValue($cell.text().trim());
+                        const sumAbsRtn = absRtnData["Abs. Rtn."].reduce((acc, val) => acc + val, 0);
+                        const calculatedAbsRtn = (sumGainLoss / sumInflow) * 100; // Calculate Abs. Rtn.
+                        expect(calculatedAbsRtn).to.equal(expectedAbsRtn); // Validate Absolute Return
+                    } else if (index === 8) {
+                        const expectedXIRR = parseFormattedValue($cell.text().trim());
+                        const sumXIRR = xirrData["XIRR"].reduce((acc, val) => acc + val, 0);
+                        expect(sumXIRR).to.equal(expectedXIRR); // Validate XIRR
+                    }
+                });
             });
         });
-    });
 
-});
+    });
 });

@@ -5,6 +5,7 @@ const dbConfig = require('../../support/dbConfig')// Adjust the path as necessar
 describe('Asset Report and Mutual Fund Report', () => {
   let allMutualFundValues = [];
   let PCodeValues = [];
+  let uniquePcodeValues = [];
   let rowsData = []; 
   let PMSAssetData = [];
   let schemeData = []; 
@@ -15,265 +16,267 @@ describe('Asset Report and Mutual Fund Report', () => {
   let fdBondAccString = '';
   let commodityData = []; 
   let propertyData = [];
- 
+
 
   Cypress.on('uncaught:exception', (err, runnable) => {
     return false; // Prevent Cypress from failing the test
   });
 
-  // //Test_Case 1: Mutual Fund Report Test
-  // it('validate the Mutual Fund Data(allMutualFundValues & PCodeValues) ', () => {
-  //   login();
-  //   // For the Mutual Fund section in the report
-  //   cy.get('#mutualSectionHead_8733 > .m-tab').click();
-  //   cy.get('#liveportfoliocontent8733').click();
-  //   // Extract data from the web page for mutual fund report
-  //   cy.get('#liveportfoliocontent8733')
-  //     .find('table')
-  //     .find('tbody')
-  //     .children('tr')
-  //     .not('.sh-panel.dn') // Skip rows with class 'sh-panel dn'
-  //     .each(($row) => {
-  //       let mutualFundRowData = {};
-  //       cy.wrap($row)
-  //         .find('td')
-  //         .each(($cell, cellIndex) => {
-  //           const cellText = $cell.text().trim();
-  //           switch (cellIndex) {
-  //             case 0:
-  //               // Extract SchemeName, FolioNumber, and ARNNo from the cell text
-  //               let schemeName = $cell.find('p.show-fund-more b').text().trim();
-  //               const folioNumber = $cell.find('p:contains("Folio") b').text().trim();
-  //               const arnNo = $cell.find('p:contains("ARN No") b').text().trim();
-  //               // Remove the text after (G) but keep (G) itself
-  //               schemeName = schemeName.replace(/\(G\)(.*)$/, '(G)');
-  //               mutualFundRowData.SchemeName = schemeName;
-  //               mutualFundRowData.FolioNumber = folioNumber;
-  //               mutualFundRowData.ARNNo = arnNo;
-  //               break;
-  //             case 1: mutualFundRowData.InvSince = cellText; break;
-  //             case 2: mutualFundRowData.Sensex = cellText; break;
-  //             case 3:
-  //               // Replace comma with blank for InvCost
-  //               const newInvCost = cellText.replace(/,/g, "");
-  //               mutualFundRowData.InvCost = newInvCost;
-  //               break;
-  //             case 4: mutualFundRowData.DivR = cellText; break;
-  //             case 5:
-  //               // Replace comma with blank for Units
-  //               const newUnits = cellText.replace(/,/g, "");
-  //               mutualFundRowData.Units = newUnits;
-  //               break;
-  //             case 6: mutualFundRowData.PurNav = cellText; break;
-  //             case 7: mutualFundRowData.CurNav = cellText; break;
-  //             case 8: mutualFundRowData.NavDate = cellText; break;
-  //             case 9:
-  //               // Replace comma with blank for CurValue (Remove commas but keep the decimal)
-  //               const newCurValue = cellText.replace(/,/g, "");
-  //               mutualFundRowData.CurValue = newCurValue;
-  //               break;
-  //             case 10: mutualFundRowData.DivReinv = cellText; break;
-  //             case 11: mutualFundRowData.DivPaid = cellText; break;
-  //             case 12:
-  //               // Replace comma with blank for Total
-  //               const newTotal = cellText.replace(/,/g, "");
-  //               mutualFundRowData.Total = newTotal;
-  //               break;
-  //             case 13:
-  //               // Replace comma with blank for GainLoss
-  //               const newGainLoss = cellText.replace(/,/g, "");
-  //               mutualFundRowData.GainLoss = newGainLoss;
-  //               break;
-  //             case 14: mutualFundRowData.AbsRtn = cellText; break;
-  //             case 15: mutualFundRowData.XIRR = cellText; break;
-  //           }
-  //         });
+  //Test_Case 1: Mutual Fund Report Test
+  it('validate the Mutual Fund Data(allMutualFundValues & PCodeValues) ', () => {
+    login();
+    // For the Mutual Fund section in the report
+    cy.get('#mutualSectionHead_8733 > .m-tab').click();
+    //cy.get('#liveportfoliocontent8733').click();
+    // Extract data from the web page for mutual fund report
+    cy.get('#liveportfoliocontent8733')
+      .find('table')
+      .find('tbody')
+      .children('tr')
+      .not('.sh-panel.dn') // Skip rows with class 'sh-panel dn'
+      .each(($row) => {
+        let mutualFundRowData = {};
+        cy.wrap($row)
+          .find('td')
+          .each(($cell, cellIndex) => {
+            const cellText = $cell.text().trim();
+            switch (cellIndex) {
+              case 0:
+                // Extract SchemeName, FolioNumber, and ARNNo from the cell text
+                let schemeName = $cell.find('p.show-fund-more b').text().trim();
+                const folioNumber = $cell.find('p:contains("Folio") b').text().trim();
+                const arnNo = $cell.find('p:contains("ARN No") b').text().trim();
+                // Remove the text after (G) but keep (G) itself
+                schemeName = schemeName.replace(/\(G\)(.*)$/, '(G)');
+                mutualFundRowData.SchemeName = schemeName;
+                mutualFundRowData.FolioNumber = folioNumber;
+                mutualFundRowData.ARNNo = arnNo;
+                break;
+              case 1: mutualFundRowData.InvSince = cellText; break;
+              case 2: mutualFundRowData.Sensex = cellText; break;
+              case 3:
+                // Replace comma with blank for InvCost
+                const newInvCost = cellText.replace(/,/g, "");
+                mutualFundRowData.InvCost = newInvCost;
+                break;
+              case 4: mutualFundRowData.DivR = cellText; break;
+              case 5:
+                // Replace comma with blank for Units
+                const newUnits = cellText.replace(/,/g, "");
+                mutualFundRowData.Units = newUnits;
+                break;
+              case 6: mutualFundRowData.PurNav = cellText; break;
+              case 7: mutualFundRowData.CurNav = cellText; break;
+              case 8: mutualFundRowData.NavDate = cellText; break;
+              case 9:
+                // Replace comma with blank for CurValue (Remove commas but keep the decimal)
+                const newCurValue = cellText.replace(/,/g, "");
+                mutualFundRowData.CurValue = newCurValue;
+                break;
+              case 10: mutualFundRowData.DivReinv = cellText; break;
+              case 11: mutualFundRowData.DivPaid = cellText; break;
+              case 12:
+                // Replace comma with blank for Total
+                const newTotal = cellText.replace(/,/g, "");
+                mutualFundRowData.Total = newTotal;
+                break;
+              case 13:
+                // Replace comma with blank for GainLoss
+                const newGainLoss = cellText.replace(/,/g, "");
+                mutualFundRowData.GainLoss = newGainLoss;
+                break;
+              case 14: mutualFundRowData.AbsRtn = cellText; break;
+              case 15: mutualFundRowData.XIRR = cellText; break;
+            }
+          });
 
-  //       allMutualFundValues.push(mutualFundRowData);
-  //     });
+        allMutualFundValues.push(mutualFundRowData);
+      });
 
-  //   cy.then(() => {
-  //     cy.log('MutualFund all Data :', allMutualFundValues);
-  //   });
+    cy.then(() => {
+      cy.log('MutualFund all Data :', allMutualFundValues);
+    });
 
-  //   // Extract Pcodes from the onclick attribute
-  //   cy.get('#liveportfoliocontent8733')
-  //     .find('table')
-  //     .find('tbody')
-  //     .children('tr')
-  //     .each(($row) => {
-  //       cy.wrap($row)
-  //         .xpath("//p[contains(@class, 'show-fund-more')]")
-  //         .each(($p) => {
-  //           cy.wrap($p)
-  //             .invoke('attr', 'onclick')
-  //             .then((PCode) => {
-  //               const regex = /showTrans\('\d+_([A-Za-z0-9]+)_\d{4}'\)/;
-  //               const match = PCode.match(regex);
-  //               if (match) {
-  //                 PCodeValues.push(match[1]);
-  //               }
-  //             });
-  //         });
-  //     });
+    // Extract Pcodes from the onclick attribute
+    cy.get('#liveportfoliocontent8733')
+      .find('table')
+      .find('tbody')
+      .children('tr')
+      .each(($row) => {
+        cy.wrap($row)
+          .xpath("//p[contains(@class, 'show-fund-more')]")
+          .each(($p) => {
+            cy.wrap($p)
+              .invoke('attr', 'onclick')
+              .then((PCode) => {
+                const regex = /showTrans\('\d+_([A-Za-z0-9]+)_\d{4}'\)/;
+                const match = PCode.match(regex);
+                if (match) {
+                  PCodeValues.push(match[1]);
+                }
+              });
+          });
+      });
 
-  //     cy.then(() => {
-  //       // Remove duplicate values from the array
-  //       const uniquePcodeValues = [...new Set(PCodeValues)];
-  //       cy.log('Extracted PcodeValues:', uniquePcodeValues.join(', ')); // Log all extracted values as a comma-separated list
-  //       cy.log('Extracted PcodeValues:', uniquePcodeValues);
-  //     });
-  //   });
+      cy.then(() => {
+        // Remove duplicate values from the array
+         uniquePcodeValues = [...new Set(PCodeValues)];
+        cy.log('Extracted PcodeValues:', uniquePcodeValues.join(', ')); // Log all extracted values as a comma-separated list
+        cy.log('Extracted PcodeValues:', uniquePcodeValues);
+      });
+    });
 
-  // // Test_Case 2: MongoDB Test for Mutual Fund Report
-  //  it('Validate the Connection For MongoDB & Validate the MutualFundData Against web Data ', () => {
-  //   const { collectionName1, whereCondition1 } = mongoconfig;
+  // Test_Case 2: MongoDB Test for Mutual Fund Report
+   it('Validate the Connection For MongoDB & Validate the MutualFundData Against web Data ', () => {
+    const { collectionName1, whereCondition1 } = mongoconfig;
+    cy.log('MongoDB Config:', collectionName1, whereCondition1);
+    whereCondition1.sCode.$in = uniquePcodeValues;
+    cy.log('MongoDB new Config:', collectionName1, whereCondition1);
+    cy.task('testMongoConnection', {
+      collectionName: collectionName1,
+      whereCondition: JSON.stringify(whereCondition1),
+    }).then((result) => {
+      cy.log('MongoDB Result:', JSON.stringify(result));
+      cy.log('MutualFund all Data :', allMutualFundValues);
+      // Perform assertions and matching logic with allMutualFundValues
+      if (result && result.success !== undefined && result.message !== undefined) {
+        expect(result.success, result.message).to.be.true;
 
-  //   cy.task('testMongoConnection', {
-  //     collectionName: collectionName1,//
-  //     whereCondition: JSON.stringify(whereCondition1),
-  //   }).then((result) => {
-  //     cy.log('MongoDB Result:', JSON.stringify(result));
-  //     cy.log('MutualFund all Data :', allMutualFundValues);
-  //     // Perform assertions and matching logic with allMutualFundValues
-  //     if (result && result.success !== undefined && result.message !== undefined) {
-  //       expect(result.success, result.message).to.be.true;
+        if (result.success) {
+          // Continue with your assertion logic
+          let matchedRecords = [];
+          let mismatchedRecords = [];
+          allMutualFundValues.sort((a, b) => {
+            if (a.SchemeName < b.SchemeName) return -1;
+            if (a.SchemeName > b.SchemeName) return 1;
+            return a.FolioNumber < b.FolioNumber ? -1 : 1; // secondary sort on FolioNumber
+          });
+          result.data.sort((a, b) => {
+            if (a.fundDesc < b.fundDesc) return -1;
+            if (a.fundDesc > b.fundDesc) return 1;
+            return a.folio < b.folio ? -1 : 1; // secondary sort on FolioNumber
+          });
+          let isMatch;
+          let row = {};
+          let tableData = {};
 
-  //       if (result.success) {
-  //         // Continue with your assertion logic
-  //         let matchedRecords = [];
-  //         let mismatchedRecords = [];
-  //         allMutualFundValues.sort((a, b) => {
-  //           if (a.SchemeName < b.SchemeName) return -1;
-  //           if (a.SchemeName > b.SchemeName) return 1;
-  //           return a.FolioNumber < b.FolioNumber ? -1 : 1; // secondary sort on FolioNumber
-  //         });
-  //         result.data.sort((a, b) => {
-  //           if (a.fundDesc < b.fundDesc) return -1;
-  //           if (a.fundDesc > b.fundDesc) return 1;
-  //           return a.folio < b.folio ? -1 : 1; // secondary sort on FolioNumber
-  //         });
-  //         let isMatch;
-  //         let row = {};
-  //         let tableData = {};
+          for (let index = 0; index < result.data.length; index++) {
+            row = result.data[index];
+            tableData = allMutualFundValues[index];
 
-  //         for (let index = 0; index < result.data.length; index++) {
-  //           row = result.data[index];
-  //           tableData = allMutualFundValues[index];
+            if (tableData.SchemeName === row.fundDesc && tableData.FolioNumber === row.folio) {
+              isMatch = true;
+            } else {
+              isMatch = false;
+            }
+            if (isMatch) {
+              matchedRecords.push(row); // Store matched data
+            } else {
+              mismatchedRecords.push(row); // Store mismatched data
+            }
+          }
+          cy.log('Matched Records:', matchedRecords);
+          cy.log('Mismatched Records:', mismatchedRecords);
+        }
+      } else {
+        cy.log('Invalid result object:', JSON.stringify(result));
+        throw new Error('Invalid result object');
+      }
+    });
+  });
 
-  //           if (tableData.SchemeName === row.fundDesc && tableData.FolioNumber === row.folio) {
-  //             isMatch = true;
-  //           } else {
-  //             isMatch = false;
-  //           }
-  //           if (isMatch) {
-  //             matchedRecords.push(row); // Store matched data
-  //           } else {
-  //             mismatchedRecords.push(row); // Store mismatched data
-  //           }
-  //         }
-  //         cy.log('Matched Records:', matchedRecords);
-  //         cy.log('Mismatched Records:', mismatchedRecords);
-  //       }
-  //     } else {
-  //       cy.log('Invalid result object:', JSON.stringify(result));
-  //       throw new Error('Invalid result object');
-  //     }
-  //   });
-  // });
+// Test_Case 3: Equity Report Test
+  it('validate the Equity Data', () => {
+    login();
 
-// // Test_Case 3: Equity Report Test
-//   it('validate the Equity Data', () => {
-//     login();
+    // For the Equity section in the report
+    cy.get('#equitySectionHead_8733 > .m-tab').click();
 
-//     // For the Equity section in the report
-//     cy.get('#equitySectionHead_8733 > .m-tab').click();
+    // Extract the data from the web page (Equity section)
+    cy.get('#equitySectionData_8733 > .panel-body')
+      .find('table')
+      .find('tbody')
+      .children('tr')
+      .filter(':even')
+      .filter('[showhide="show"]')
+      .each(($row, index) => {
+        let rowDataObject = {};
+        cy.wrap($row)
+          .find('td')
+          .each(($cell, cellIndex) => {
+            const cellText = $cell.text().trim();
 
-//     // Extract the data from the web page (Equity section)
-//     cy.get('#equitySectionData_8733 > .panel-body')
-//       .find('table')
-//       .find('tbody')
-//       .children('tr')
-//       .filter(':even')
-//       .filter('[showhide="show"]')
-//       .each(($row, index) => {
-//         let rowDataObject = {};
-//         cy.wrap($row)
-//           .find('td')
-//           .each(($cell, cellIndex) => {
-//             const cellText = $cell.text().trim();
+            switch (cellIndex) {
+              case 1: rowDataObject.CompanyName = cellText; break;
+              case 2: rowDataObject.Exchange = cellText; break;
+              case 3: rowDataObject.Quantity = cellText; break;
+              case 4: rowDataObject.AvgRate = cellText; break;
+              case 5: rowDataObject.InvestedAmount = cellText; break;
+              case 6: rowDataObject.CurrentRate = cellText; break;
+              case 7: rowDataObject.Valuation = cellText; break;
+              case 8: rowDataObject.AbsReturn = cellText; break;
+              case 9: rowDataObject.XIRR = cellText; break;
+            }
+          });
+        rowsData.push(rowDataObject);  
+      });
 
-//             switch (cellIndex) {
-//               case 1: rowDataObject.CompanyName = cellText; break;
-//               case 2: rowDataObject.Exchange = cellText; break;
-//               case 3: rowDataObject.Quantity = cellText; break;
-//               case 4: rowDataObject.AvgRate = cellText; break;
-//               case 5: rowDataObject.InvestedAmount = cellText; break;
-//               case 6: rowDataObject.CurrentRate = cellText; break;
-//               case 7: rowDataObject.Valuation = cellText; break;
-//               case 8: rowDataObject.AbsReturn = cellText; break;
-//               case 9: rowDataObject.XIRR = cellText; break;
-//             }
-//           });
-//         rowsData.push(rowDataObject);  
-//       });
+    // Log the rowsData for debugging
+    cy.log('Rows data:', rowsData);  // Log the data from the web for inspection
 
-//     // Log the rowsData for debugging
-//     cy.log('Rows data:', rowsData);  // Log the data from the web for inspection
+    //Validate the web report data
+    rowsData.forEach((row, index) => {
+      cy.log(`Validating row ${index + 1}: ${JSON.stringify(row)}`);
 
-//     //Validate the web report data
-//     rowsData.forEach((row, index) => {
-//       cy.log(`Validating row ${index + 1}: ${JSON.stringify(row)}`);
+      // Assertions for each field in row data
+      cy.wrap(row).should('have.property', 'CompanyName').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'Exchange').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'Quantity').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'AvgRate').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'InvestedAmount').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'CurrentRate').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'Valuation').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'AbsReturn').and('not.be.empty');
+      cy.wrap(row).should('have.property', 'XIRR').and('not.be.empty');
+    });
+  });
 
-//       // Assertions for each field in row data
-//       cy.wrap(row).should('have.property', 'CompanyName').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'Exchange').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'Quantity').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'AvgRate').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'InvestedAmount').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'CurrentRate').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'Valuation').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'AbsReturn').and('not.be.empty');
-//       cy.wrap(row).should('have.property', 'XIRR').and('not.be.empty');
-//     });
-//   });
+ // Test_Case 4: Mysql Test for Equity Report
+it('Validate the Connection For MySQL & Validate the Equity Data Against web Data ', () => {
+    // Use dynamic table
+    cy.task('testMySQLConnection', { 
+      tableName: dbConfig.config.tableName2, 
+      whereCondition: dbConfig.config.whereCondition2
+    }).then((result) => {
+      expect(result.success).to.be.true;
+      cy.log(result.message);
 
-//  // Test_Case 4: Mysql Test for Equity Report
-// it('Validate the Connection For MySQL & Validate the Equity Data Against web Data ', () => {
-//     // Use dynamic table
-//     cy.task('testMySQLConnection', { 
-//       tableName: dbConfig.config.tableName2, 
-//       whereCondition: dbConfig.config.whereCondition2
-//     }).then((result) => {
-//       expect(result.success).to.be.true;
-//       cy.log(result.message);
+      if (result.data && result.data.length > 0) {
+        result.data.forEach(row => {
+          cy.log(`Row data from MySQL: ${JSON.stringify(row)}`);
 
-//       if (result.data && result.data.length > 0) {
-//         result.data.forEach(row => {
-//           cy.log(`Row data from MySQL: ${JSON.stringify(row)}`);
+           // Validate the extracted equity data against MySQL data
+          rowsData.forEach(webRow => {
+            if (webRow.CompanyName === row.CompanyName && webRow.Quantity === row.Quantity) {
+              cy.log(`Matching row found: ${webRow.CompanyName} - ${webRow.Quantity}`);
 
-//            // Validate the extracted equity data against MySQL data
-//           rowsData.forEach(webRow => {
-//             if (webRow.CompanyName === row.CompanyName && webRow.Quantity === row.Quantity) {
-//               cy.log(`Matching row found: ${webRow.CompanyName} - ${webRow.Quantity}`);
-
-//               // Explicitly validate each field
-//               cy.wrap(webRow.CompanyName).should('equal', row.CompanyName);
-//               cy.wrap(webRow.Quantity).should('equal', row.Quantity);
-//               cy.wrap(webRow.AvgRate).should('equal', row.AvgRate);
-//               cy.wrap(webRow.InvestedAmount).should('equal', row.InvestedAmount);
-//               cy.wrap(webRow.CurrentRate).should('equal', row.CurrentRate);
-//               cy.wrap(webRow.Valuation).should('equal', row.Valuation);
-//               cy.wrap(webRow.AbsReturn).should('equal', row.AbsReturn);
-//               cy.wrap(webRow.XIRR).should('equal', row.XIRR);
-//             }
-//           });
-//         });
-//       } else {
-//         cy.log('No data found in the eq_holding table.');
-//       }
-//     });
-//   });
+              // Explicitly validate each field
+              cy.wrap(webRow.CompanyName).should('equal', row.CompanyName);
+              cy.wrap(webRow.Quantity).should('equal', row.Quantity);
+              cy.wrap(webRow.AvgRate).should('equal', row.AvgRate);
+              cy.wrap(webRow.InvestedAmount).should('equal', row.InvestedAmount);
+              cy.wrap(webRow.CurrentRate).should('equal', row.CurrentRate);
+              cy.wrap(webRow.Valuation).should('equal', row.Valuation);
+              cy.wrap(webRow.AbsReturn).should('equal', row.AbsReturn);
+              cy.wrap(webRow.XIRR).should('equal', row.XIRR);
+            }
+          });
+        });
+      } else {
+        cy.log('No data found in the eq_holding table.');
+      }
+    });
+  });
 
   //Test_case 5: Post Office Test
   it('validate the Post Office Data', () => {

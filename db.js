@@ -2,6 +2,7 @@ require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 // Create a connection pool
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -11,6 +12,7 @@ const pool = mysql.createPool({
 });
 
 // Query function to run queries
+
 async function queryDatabase(query, params = []) {
   const connection = await pool.getConnection();
   try {
