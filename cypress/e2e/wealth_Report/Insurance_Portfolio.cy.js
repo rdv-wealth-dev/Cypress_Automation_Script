@@ -64,7 +64,6 @@ it('validate the Accidental Data', () => {
         cy.wrap(row).should('have.property', 'RenewalDate').and('not.be.empty');
     });
   });
-  
   //Test_Case 16: Mysql Test for Accidental Report
       it('Validate the Connection For MySQL & Validate the Accidental Data Against Web Data', () => {
           // Use dynamic table

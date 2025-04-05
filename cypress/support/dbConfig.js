@@ -24,6 +24,10 @@ const config = {
   tableName11: `advisor_lic_policy`,               //Accidental-LI Policy
   whereCondition11: `WHERE arn_id='8' AND policyNumber IN ('7734','P7734'); `,
 
+  //Live SIP 
+  tableName12: `sip_details`,                     //SIP
+  whereCondition12: `WHERE arn_id ='8' AND FolioNumber IN `,
+
 };
 
 module.exports = { config };
