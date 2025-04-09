@@ -20,10 +20,10 @@ module.exports = defineConfig({
       on('task', {
         async testMySQLConnection({ tableName, successMsg, errorMsg, whereCondition }) {
           const connection = mysql.createConnection({
-            host: process.env.DB_HOST, 
-            user: process.env.DB_USER,      
-            password: process.env.DB_PASSWORD,  
-            database: process.env.DB_NAME   
+            host: process.env.ELIT_DB_HOST, 
+            user: process.env.ELIT_DB_USER,      
+            password: process.env.ELIT_DB_PASSWORD,  
+            database: process.env.ELIT_DB_NAME   
           });
           return new Promise((resolve, reject) => {
             connection.connect((err) => {
@@ -48,9 +48,9 @@ module.exports = defineConfig({
         
         async testMongoConnection({ collectionName, successMsg, errorMsg, whereCondition }) {
           const uri = process.env.MONGODB_URI;
-          const dbName = 'testdb';
+          const dbName = 'elite_core';
           
-          if (!uri || !uri.startsWith('mongodb://')) {
+          if (!uri || !uri.startsWith('mongodb+srv://')) {
             return { 
               success: false, 
               message: 'Invalid MongoDB URI. Please check your .env file' 

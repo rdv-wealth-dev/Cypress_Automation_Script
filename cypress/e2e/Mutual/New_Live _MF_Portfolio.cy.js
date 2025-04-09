@@ -500,7 +500,7 @@ describe('Asset Report and Mutual Fund Report', () => {
   });
 
 
-  // Test_Case 8: Mysql Test for Live STP Data
+  // Test_Case 8: Mysql Test for All STP Data
   it('Validate the Connection For MySQL & Validate the LiveSip Data Against web Data', () => {
     // Use dynamic table
     const formattedFolioNumbers = FolioNumber.map(num => `'${num.trim()}'`).join(',');
