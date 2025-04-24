@@ -1,0 +1,223 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-04-16T08:14:17.691Z",
+    "end": "2025-04-16T08:16:09.660Z",
+    "duration": 111969,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b9ce3998-f42c-43e1-ad20-1ca2941fb719",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Mutual\\New_P_L_Valuation_Report.cy.js",
+      "file": "cypress\\e2e\\Mutual\\New_P_L_Valuation_Report.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+          "title": "Asset Report and Mutual Fund Report",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should generate a report for Live Funds+ All Funds by client",
+              "fullTitle": "Asset Report and Mutual Fund Report should generate a report for Live Funds+ All Funds by client",
+              "timedOut": null,
+              "duration": 22823,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//for visit the url whichever you want after the login\ncy.visit(\"https://wealthelite.in/MutualFund/pl/profit-loss\");\n//Select the client\ncy.get('select[name=\"selectViewBy\"]').select('Client');\n//Select The Date\ncy.get('#valuationDate').clear().type('2025-04-15').click();\n// Select the Client Name\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#loadClient > li').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// View Fund: All Funds\ncy.get('input#allFundView[type=\"radio\"]').check({\n  force: true\n});\n// Check Fund Type Wise\ncy.get('#fundTypeWise').check();\n// Intercept and click\ncy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');\ncy.intercept('POST', '/MutualFund/portfolio/save-graph-data').as('save-graph-data');\ncy.get('#btn_web').click();\ncy.wait('@showPLReport').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});\ncy.wait('@save-graph-data').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});",
+              "err": {},
+              "uuid": "560fba7f-a000-41d2-9fa1-79a4d7811843",
+              "parentUUID": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should generate a report for All Funds + All Funds by client",
+              "fullTitle": "Asset Report and Mutual Fund Report should generate a report for All Funds + All Funds by client",
+              "timedOut": null,
+              "duration": 10829,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://wealthelite.in/MutualFund/pl/profit-loss\");\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('#valuationDate').clear().type('2025-04-15').click();\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#loadClient > li').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// Select Report Type: All Funds\ncy.get('input[name=\"reportType\"][value=\"all\"]', {\n  timeout: 10000\n}).check({\n  force: true\n});\n// Intercept and click\ncy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');\ncy.intercept('POST', '/MutualFund/portfolio/save-graph-data').as('save-graph-data');\ncy.get('#btn_web').click();\ncy.wait('@showPLReport').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});\ncy.wait('@save-graph-data').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});",
+              "err": {},
+              "uuid": "94e73e8c-be5f-41b6-adaa-2b2a1eaf1bf0",
+              "parentUUID": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should generate a report for All Funds + Realised Fund by client",
+              "fullTitle": "Asset Report and Mutual Fund Report should generate a report for All Funds + Realised Fund by client",
+              "timedOut": null,
+              "duration": 11080,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://wealthelite.in/MutualFund/pl/profit-loss\");\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('#valuationDate').clear().type('2025-04-15').click();\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#loadClient > li').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// Select Report Type: All Funds\ncy.get('input[name=\"reportType\"][value=\"all\"]', {\n  timeout: 10000\n}).check({\n  force: true\n});\n// Intercept and click\ncy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');\ncy.intercept('POST', '/MutualFund/portfolio/save-graph-data').as('save-graph-data');\ncy.get('#btn_web').click();\ncy.wait('@showPLReport').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});\ncy.wait('@save-graph-data').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});",
+              "err": {},
+              "uuid": "7e534db1-a844-4a0c-8812-eb4b5be12e4f",
+              "parentUUID": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should generate a report for All Funds + All Funds + Summery by client",
+              "fullTitle": "Asset Report and Mutual Fund Report should generate a report for All Funds + All Funds + Summery by client",
+              "timedOut": null,
+              "duration": 10970,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://wealthelite.in/MutualFund/pl/profit-loss\");\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('#valuationDate').clear().type('2025-04-15').click();\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#loadClient > li').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// Select Report Type: All Funds\ncy.get('input[name=\"reportType\"][value=\"all\"]', {\n  timeout: 10000\n}).check({\n  force: true\n});\n// Intercept and click\ncy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');\ncy.intercept('POST', '/MutualFund/portfolio/save-graph-data').as('save-graph-data');\ncy.get('#btn_web').click();\ncy.wait('@showPLReport').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});\ncy.wait('@save-graph-data').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});",
+              "err": {},
+              "uuid": "381971bc-074b-4898-b92d-b858a31642b2",
+              "parentUUID": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should generate a report for All Funds + All Funds + Graphs by client",
+              "fullTitle": "Asset Report and Mutual Fund Report should generate a report for All Funds + All Funds + Graphs by client",
+              "timedOut": null,
+              "duration": 10714,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://wealthelite.in/MutualFund/pl/profit-loss\");\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('#valuationDate').clear().type('2025-04-15').click();\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#loadClient > li').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// Select Report Type: All Funds\ncy.get('input[name=\"reportType\"][value=\"all\"]', {\n  timeout: 10000\n}).check({\n  force: true\n});\n// Intercept and click\ncy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');\ncy.get('#btn_web').click();\ncy.wait('@showPLReport').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});",
+              "err": {},
+              "uuid": "6194447c-a6d0-4548-8e78-ea06dd733bae",
+              "parentUUID": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should generate a report for All Funds + All Funds by Family",
+              "fullTitle": "Asset Report and Mutual Fund Report should generate a report for All Funds + All Funds by Family",
+              "timedOut": null,
+              "duration": 23037,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://wealthelite.in/MutualFund/pl/profit-loss\");\ncy.get('select[name=\"selectViewBy\"]').select('Family');\ncy.get('#valuationDate').clear().type('2025-04-15').click();\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#loadClient > li').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// Select Report Type: All Funds\ncy.get('input[name=\"reportType\"][value=\"all\"]', {\n  timeout: 10000\n}).check({\n  force: true\n});\n// Intercept and click\ncy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');\ncy.intercept('POST', '/MutualFund/portfolio/save-graph-data').as('save-graph-data');\ncy.get('#btn_web').click();\ncy.wait('@showPLReport').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});\ncy.wait('@save-graph-data').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});",
+              "err": {},
+              "uuid": "d4311a13-34e1-48e9-b61f-499b7db8eb93",
+              "parentUUID": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should generate a report for All Funds + All Funds + Summery by Family",
+              "fullTitle": "Asset Report and Mutual Fund Report should generate a report for All Funds + All Funds + Summery by Family",
+              "timedOut": null,
+              "duration": 18461,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://wealthelite.in/MutualFund/pl/profit-loss\");\ncy.get('select[name=\"selectViewBy\"]').select('Family');\ncy.get('#valuationDate').clear().type('2025-04-15').click();\ncy.get('input[placeholder=\"Search client\"]').type('Abhishek Singh Parihar');\ncy.get('#loadClient > li').contains('Abhishek Singh Parihar').click();\ncy.wait(3000);\n// Select Report Type: All Funds\ncy.get('input[name=\"reportType\"][value=\"all\"]', {\n  timeout: 10000\n}).check({\n  force: true\n});\n// Intercept and click\ncy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');\ncy.intercept('POST', '/MutualFund/portfolio/save-graph-data').as('save-graph-data');\ncy.get('#btn_web').click();\ncy.wait('@showPLReport').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});\ncy.wait('@save-graph-data').then(interception => {\n  expect(interception.response.statusCode).to.eq(200);\n});",
+              "err": {},
+              "uuid": "89da6dc9-dd17-4229-8a84-2a099588b134",
+              "parentUUID": "69fdd96f-46d8-454e-a28e-f772ecac5655",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "560fba7f-a000-41d2-9fa1-79a4d7811843",
+            "94e73e8c-be5f-41b6-adaa-2b2a1eaf1bf0",
+            "7e534db1-a844-4a0c-8812-eb4b5be12e4f",
+            "381971bc-074b-4898-b92d-b858a31642b2",
+            "6194447c-a6d0-4548-8e78-ea06dd733bae",
+            "d4311a13-34e1-48e9-b61f-499b7db8eb93",
+            "89da6dc9-dd17-4229-8a84-2a099588b134"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 107914,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "reports",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mochawesome/",
+        "reportFilename": "reports",
+        "html": true,
+        "json": true,
+        "overwrite": true,
+        "timestamp": "yyyy-mm-dd_HH-MM-ss",
+        "charts": true,
+        "inline": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

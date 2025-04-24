@@ -17,6 +17,10 @@ describe('Asset Report and Mutual Fund Report', () => {
   let commodityData = []; 
   let propertyData = [];
 
+  before(() => {
+    // Login once before all tests
+    login();
+  });
 
   Cypress.on('uncaught:exception', (err, runnable) => {
     return false; // Prevent Cypress from failing the test
@@ -24,7 +28,6 @@ describe('Asset Report and Mutual Fund Report', () => {
 
   //Test_Case 1: Mutual Fund Report Test
   it('validate the Mutual Fund Data(allMutualFundValues & PCodeValues) ', () => {
-    login();
     // For the Mutual Fund section in the report
     cy.get('#mutualSectionHead_8733 > .m-tab').click();
     //cy.get('#liveportfoliocontent8733').click();
@@ -185,13 +188,10 @@ describe('Asset Report and Mutual Fund Report', () => {
     });
   });
 
-// Test_Case 3: Equity Report Test
+  // Test_Case 3: Equity Report Test
   it('validate the Equity Data', () => {
-    login();
-
     // For the Equity section in the report
     cy.get('#equitySectionHead_8733 > .m-tab').click();
-
     // Extract the data from the web page (Equity section)
     cy.get('#equitySectionData_8733 > .panel-body')
       .find('table')
@@ -241,46 +241,57 @@ describe('Asset Report and Mutual Fund Report', () => {
     });
   });
 
- // Test_Case 4: Mysql Test for Equity Report
-it('Validate the Connection For MySQL & Validate the Equity Data Against web Data ', () => {
-    // Use dynamic table
-    cy.task('testMySQLConnection', { 
-      tableName: dbConfig.config.tableName2, 
-      whereCondition: dbConfig.config.whereCondition2
-    }).then((result) => {
-      expect(result.success).to.be.true;
-      cy.log(result.message);
+// Test Case 4: MySQL Test for Equity Report - with matched & mismatched records logic
+it('Validate the Connection For MySQL & Validate the Equity Data Against web Data', () => {
+  cy.task('testMySQLConnection', { 
+    tableName: dbConfig.config.tableName2, 
+    whereCondition: dbConfig.config.whereCondition2 
+  }).then((result) => {
+    expect(result.success).to.be.true;
+    cy.log(result.message);
 
-      if (result.data && result.data.length > 0) {
-        result.data.forEach(row => {
-          cy.log(`Row data from MySQL: ${JSON.stringify(row)}`);
+    if (result.data && result.data.length > 0) {
+      let matchedRecords = [];
+      let mismatchedRecords = [];
 
-           // Validate the extracted equity data against MySQL data
-          rowsData.forEach(webRow => {
-            if (webRow.CompanyName === row.CompanyName && webRow.Quantity === row.Quantity) {
-              cy.log(`Matching row found: ${webRow.CompanyName} - ${webRow.Quantity}`);
+      rowsData.sort((a, b) => a.CompanyName.localeCompare(b.CompanyName));
+      result.data.sort((a, b) => a.CompanyName.localeCompare(b.CompanyName));
 
-              // Explicitly validate each field
-              cy.wrap(webRow.CompanyName).should('equal', row.CompanyName);
-              cy.wrap(webRow.Quantity).should('equal', row.Quantity);
-              cy.wrap(webRow.AvgRate).should('equal', row.AvgRate);
-              cy.wrap(webRow.InvestedAmount).should('equal', row.InvestedAmount);
-              cy.wrap(webRow.CurrentRate).should('equal', row.CurrentRate);
-              cy.wrap(webRow.Valuation).should('equal', row.Valuation);
-              cy.wrap(webRow.AbsReturn).should('equal', row.AbsReturn);
-              cy.wrap(webRow.XIRR).should('equal', row.XIRR);
-            }
-          });
-        });
-      } else {
-        cy.log('No data found in the eq_holding table.');
+      for (let index = 0; index < result.data.length; index++) {
+        const dbRow = result.data[index];
+        const webRow = rowsData.find(r => r.CompanyName === dbRow.CompanyName && r.Quantity === dbRow.Quantity);
+
+        if (webRow) {
+          const isMatch =
+            webRow.CompanyName === dbRow.CompanyName &&
+            webRow.Quantity === dbRow.Quantity &&
+            webRow.AvgRate === dbRow.AvgRate &&
+            webRow.InvestedAmount === dbRow.InvestedAmount &&
+            webRow.CurrentRate === dbRow.CurrentRate &&
+            webRow.Valuation === dbRow.Valuation &&
+            webRow.AbsReturn === dbRow.AbsReturn &&
+            webRow.XIRR === dbRow.XIRR;
+
+          if (isMatch) {
+            matchedRecords.push({ db: dbRow, web: webRow });
+          } else {
+            mismatchedRecords.push({ db: dbRow, web: webRow });
+          }
+        } else {
+          mismatchedRecords.push({ db: dbRow, web: null });
+        }
       }
-    });
+
+      cy.log('✅ Matched Records:', JSON.stringify(matchedRecords, null, 2));
+      cy.log('❌ Mismatched Records:', JSON.stringify(mismatchedRecords, null, 2));
+    } else {
+      cy.log('No data found in the eq_holding table.');
+    }
   });
+});
 
   //Test_case 5: Post Office Test
   it('validate the Post Office Data', () => {
-   login();
 
     // For the Postal section in the report
     cy.get('#poSectionHead_8733 > .m-tab').click();
@@ -386,7 +397,6 @@ it('Validate the Connection For MySQL & Validate the Equity Data Against web Dat
 
 //Test_case 7: FD & Bond Test
 it('validate the FD & Bond Data', () => {
-  login();
 
   // For the Postal section in the report
   cy.get('#fdSectionHead_8733 > .m-tab').click();
@@ -489,7 +499,6 @@ it('Validate the Connection For MySQL & Validate the FD & Bond Data Against web 
 
 //Test_case 9: Commodity Test 
 it('validate the Commodity Data', () => {
-  login();
 
   // For the Commodity section in the report
   cy.get('#commSectionHead_8733 > .m-tab').click();
@@ -580,7 +589,6 @@ it('validate the Commodity Data', () => {
 
 //Test_case 11: Real Estate Test 
 it('validate the Real Estate Data', () => {
-  login();
 
   // For the Property section in the report
   cy.get('#realEstateSectionHead_8733 > .m-tab').click();
@@ -674,7 +682,6 @@ it('Validate the Connection For MySQL & Validate the Real Estate Data Against we
 
   // Test_Case 13: PMSAsset Report Test
   it('validate the PMS Asset Data(PMSAssetData)', () => {
-    login();
 
     // For the Asset section in the report
     cy.get('#PMSSectionHead_8733 > .m-tab').click();

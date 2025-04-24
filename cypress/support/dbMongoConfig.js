@@ -4,7 +4,7 @@ const mongoconfig = {
   collectionName1: 'present_day_summary',
   whereCondition1: {
     arn_id: 8,
-    date: '2025-04-07',
+    date: '2025-04-14',
     sCode: {
     //   $in: [
     //     "H02",

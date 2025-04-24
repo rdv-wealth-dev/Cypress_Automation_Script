@@ -1,4 +1,4 @@
-const { mongoconfig, login, login_Mutual } = require('../../support/dbMongoConfig');
+  const { mongoconfig, login, login_Mutual } = require('../../support/dbMongoConfig');
 const dbConfig = require('../../support/dbConfig'); // Adjust the path as necessary
 
 describe('Asset Report and Mutual Fund Report', () => {
@@ -426,8 +426,8 @@ describe('Asset Report and Mutual Fund Report', () => {
   //         });
   //     });
 
-  // Test_Case 7: Live STP Data and Folio Number
-  it('validate the Mutual Fund Data(allMutualFundValues & PCodeValues)', () => {
+  // Test_Case 7: All STP Data and Folio Number
+  it('validate the Mutual Fund Data(All STP Data and Folio Number)', () => {
     login_Mutual();
     // For the Mutual Fund section in the report
     cy.get('#liveportfoliotabllist8733 > :nth-child(3) > .nav-link').click();
@@ -501,7 +501,7 @@ describe('Asset Report and Mutual Fund Report', () => {
 
 
   // Test_Case 8: Mysql Test for All STP Data
-  it('Validate the Connection For MySQL & Validate the LiveSip Data Against web Data', () => {
+  it('Validate the Connection For MySQL & Validate the  All STP Data Against web Data', () => {
     // Use dynamic table
     const formattedFolioNumbers = FolioNumber.map(num => `'${num.trim()}'`).join(',');
     cy.task('testMySQLConnection', {

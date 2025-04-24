@@ -20,10 +20,10 @@ module.exports = defineConfig({
       on('task', {
         async testMySQLConnection({ tableName, successMsg, errorMsg, whereCondition }) {
           const connection = mysql.createConnection({
-            host: process.env.ELIT_DB_HOST, 
-            user: process.env.ELIT_DB_USER,      
-            password: process.env.ELIT_DB_PASSWORD,  
-            database: process.env.ELIT_DB_NAME   
+            host: process.env.ELIT_DB_HOST,
+            user: process.env.ELIT_DB_USER,
+            password: process.env.ELIT_DB_PASSWORD,
+            database: process.env.ELIT_DB_NAME
           });
           return new Promise((resolve, reject) => {
             connection.connect((err) => {
@@ -45,21 +45,21 @@ module.exports = defineConfig({
             connection.end();
           });
         },
-        
+
         async testMongoConnection({ collectionName, successMsg, errorMsg, whereCondition }) {
           const uri = process.env.MONGODB_URI;
           const dbName = 'elite_core';
-          
+
           if (!uri || !uri.startsWith('mongodb+srv://')) {
-            return { 
-              success: false, 
-              message: 'Invalid MongoDB URI. Please check your .env file' 
+            return {
+              success: false,
+              message: 'Invalid MongoDB URI. Please check your .env file'
             };
           }
 
-          const client = new MongoClient(uri, { 
-            useNewUrlParser: true, 
-            useUnifiedTopology: true 
+          const client = new MongoClient(uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
           });
 
           try {
@@ -71,20 +71,20 @@ module.exports = defineConfig({
             const adminDb = client.db().admin();
             const dbList = await adminDb.listDatabases();
             console.log('Databases:', dbList);
-            
+
             if (!dbList.databases.some(db => db.name === dbName)) {
-              return { 
-                success: false, 
-                message: `Database '${dbName}' not found` 
+              return {
+                success: false,
+                message: `Database '${dbName}' not found`
               };
             }
 
             const collections = await database.listCollections().toArray();
             console.log('Collections:', collections);
             if (!collections.some(col => col.name === collectionName)) {
-              return { 
-                success: false, 
-                message: `Collection '${collectionName}' not found in database '${dbName}'` 
+              return {
+                success: false,
+                message: `Collection '${collectionName}' not found in database '${dbName}'`
               };
             }
 
@@ -92,16 +92,16 @@ module.exports = defineConfig({
             const query = whereCondition ? JSON.parse(whereCondition) : {};
             const results = await collection.find(query).toArray();
 
-            return { 
-              success: true, 
-              message: successMsg || 'MongoDB connection successful!', 
-              data: results 
+            return {
+              success: true,
+              message: successMsg || 'MongoDB connection successful!',
+              data: results
             };
 
           } catch (error) {
             console.error('MongoDB connection error:', error);
-            return { 
-              success: false, 
+            return {
+              success: false,
               message: `MongoDB connection failed: ${error.message}`,
               errorDetails: {
                 uri: uri,

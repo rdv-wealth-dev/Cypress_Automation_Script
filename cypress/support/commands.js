@@ -22,3 +22,15 @@ Cypress.Commands.add('queryDatabase', (query, params = []) => {
   });
 });
 import 'cypress-xpath';
+
+Cypress.Commands.add('loginWithSession', () => {
+  cy.session('login-session', () => {
+    cy.visit('https://wealthelite.in/arn-login');
+    cy.get('input[name="username"]').type('redmoneyindore', { force: true });
+    cy.get('input[name="password"]').type('Abdul@2347', { force: true });
+    cy.get('button[type="submit"]').click();
+    cy.wait(5000);
+    //cy.get('#mutual__NavItem').click({ force: true });
+  });
+});
+
