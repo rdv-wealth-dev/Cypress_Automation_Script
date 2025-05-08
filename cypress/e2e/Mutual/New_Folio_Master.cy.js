@@ -1,6 +1,6 @@
 import '../../support/commands';
 
-describe('Between Date XIRR Report', () => {
+describe('New Folio Master Report', () => {
 
   beforeEach(() => {
     cy.loginWithSession(); // restores or creates session

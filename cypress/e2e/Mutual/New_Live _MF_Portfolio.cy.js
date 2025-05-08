@@ -1,7 +1,7 @@
   const { mongoconfig, login, login_Mutual } = require('../../support/dbMongoConfig');
 const dbConfig = require('../../support/dbConfig'); // Adjust the path as necessary
 
-describe('Asset Report and Mutual Fund Report', () => {
+describe('New Live MF Report', () => {
   let allMutualFundValues = [];
   let PCodeValues = [];
   let uniquePcodeValues = [];

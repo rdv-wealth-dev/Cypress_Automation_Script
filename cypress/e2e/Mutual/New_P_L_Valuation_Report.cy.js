@@ -1,6 +1,6 @@
 
 import '../../support/commands';
-describe('Asset Report and Mutual Fund Report', () => {
+describe('New P_L Valuation Report', () => {
 
     beforeEach(() => {
         cy.loginWithSession(); // ✅ restores or creates session
@@ -32,7 +32,7 @@ describe('Asset Report and Mutual Fund Report', () => {
         cy.get('input#allFundView[type="radio"]').check({ force: true });
 
         // Check Fund Type Wise
-        cy.get('input[type="radio"][id="amcwise"]').check().should('be.checked');
+        cy.get('#fundTypeWise').check();
 
         // Intercept and click
         cy.intercept('POST', '/MutualFund/pl/show-pl-report').as('showPLReport');

@@ -1,0 +1,156 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 1,
+    "pending": 0,
+    "failures": 2,
+    "start": "2025-04-28T13:26:17.430Z",
+    "end": "2025-04-28T13:26:56.852Z",
+    "duration": 39422,
+    "testsRegistered": 3,
+    "passPercent": 33.33333333333333,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5fa764ee-101e-4225-aadc-cceeb383c3f4",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Mutual\\AUM_By_Fund_House.cy.js",
+      "file": "cypress\\e2e\\Mutual\\AUM_By_Fund_House.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e3421758-eb30-458c-9309-0d6c1f7bc705",
+          "title": "Between Date XIRR Report",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "TC_01:Generate AUM Report with default date and all ARN",
+              "fullTitle": "Between Date XIRR Report TC_01:Generate AUM Report with default date and all ARN",
+              "timedOut": null,
+              "duration": 19919,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.intercept('POST', '/MutualFund/aum-master/aum-all-amc').as('aum-all-amc');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@aum-all-amc').its('response.statusCode').should('eq', 200);\ncy.get('#amcWiseAumDatatable').should('be.visible');",
+              "err": {},
+              "uuid": "79e7a3f2-125c-4453-9340-cac089fe75e3",
+              "parentUUID": "e3421758-eb30-458c-9309-0d6c1f7bc705",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_021:Generate AUM Reports with selected date and selected ARN",
+              "fullTitle": "Between Date XIRR Report TC_021:Generate AUM Reports with selected date and selected ARN",
+              "timedOut": null,
+              "duration": 7602,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"cypress-mochawesome-reporter-screenshots\",\n  \"value\": [\n    [\n      \"\\\\AUM_By_Fund_House.cy.js\\\\Between Date XIRR Report -- TC_021Generate AUM Reports with selected date and selected ARN (failed).png\"\n    ]\n  ]\n}",
+              "code": "cy.visit(baseUrl);\ncy.get('#aumReportDate').select('2025-04-16');\ncy.get('#arnNo').select('ARN-69442').should('have.value', 'ARN-69442');\ncy.intercept('POST', '/MutualFund/aum-master/aum-all-amc').as('aum-all-amc');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@aum-all-amc').its('response.statusCode').should('eq', 200);\ncy.get('#amcWiseAumDatatable').should('be.visible');",
+              "err": {
+                "message": "CypressError: Timed out retrying after 4000ms: `cy.select()` failed because it could not find a single `<option>` with value, index, or text matching: `2025-04-16`\n\nhttps://on.cypress.io/select",
+                "estack": "CypressError: Timed out retrying after 4000ms: `cy.select()` failed because it could not find a single `<option>` with value, index, or text matching: `2025-04-16`\n\nhttps://on.cypress.io/select\n    at getOptions (https://wealthelite.in/__cypress/runner/cypress_runner.js:114180:72)\n    at tryCatcher (https://wealthelite.in/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise.attempt.Promise.try (https://wealthelite.in/__cypress/runner/cypress_runner.js:4338:29)\n    at retryOptions (https://wealthelite.in/__cypress/runner/cypress_runner.js:114212:70)\n    at tryCatcher (https://wealthelite.in/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise.attempt.Promise.try (https://wealthelite.in/__cypress/runner/cypress_runner.js:4338:29)\n    at whenStable (https://wealthelite.in/__cypress/runner/cypress_runner.js:143744:68)\n    at <unknown> (https://wealthelite.in/__cypress/runner/cypress_runner.js:143685:14)\n    at tryCatcher (https://wealthelite.in/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise._settlePromiseFromHandler (https://wealthelite.in/__cypress/runner/cypress_runner.js:1542:31)\n    at Promise._settlePromise (https://wealthelite.in/__cypress/runner/cypress_runner.js:1599:18)\n    at Promise._settlePromise0 (https://wealthelite.in/__cypress/runner/cypress_runner.js:1644:10)\n    at Promise._settlePromises (https://wealthelite.in/__cypress/runner/cypress_runner.js:1724:18)\n    at Promise._fulfill (https://wealthelite.in/__cypress/runner/cypress_runner.js:1668:18)\n    at <unknown> (https://wealthelite.in/__cypress/runner/cypress_runner.js:5473:46)\nFrom Your Spec Code:\n    at Context.eval (webpack://wealthelite/./cypress/e2e/Mutual/AUM_By_Fund_House.cy.js:36:29)",
+                "diff": null
+              },
+              "uuid": "8ea6028f-d492-473e-b773-78805efe15f3",
+              "parentUUID": "e3421758-eb30-458c-9309-0d6c1f7bc705",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_03:Generate AUM Report with selected date and all ARN",
+              "fullTitle": "Between Date XIRR Report TC_03:Generate AUM Report with selected date and all ARN",
+              "timedOut": null,
+              "duration": 8689,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"cypress-mochawesome-reporter-screenshots\",\n  \"value\": [\n    [\n      \"\\\\AUM_By_Fund_House.cy.js\\\\Between Date XIRR Report -- TC_03Generate AUM Report with selected date and all ARN (failed).png\"\n    ]\n  ]\n}",
+              "code": "cy.visit(baseUrl);\ncy.get('#aumReportDate').select('2025-04-16');\ncy.intercept('POST', '/MutualFund/aum-master/aum-all-amc').as('aum-all-amc');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@aum-all-amc').its('response.statusCode').should('eq', 200);\ncy.get('#amcWiseAumDatatable').should('be.visible');",
+              "err": {
+                "message": "CypressError: Timed out retrying after 4000ms: `cy.select()` failed because it could not find a single `<option>` with value, index, or text matching: `2025-04-16`\n\nhttps://on.cypress.io/select",
+                "estack": "CypressError: Timed out retrying after 4000ms: `cy.select()` failed because it could not find a single `<option>` with value, index, or text matching: `2025-04-16`\n\nhttps://on.cypress.io/select\n    at getOptions (https://wealthelite.in/__cypress/runner/cypress_runner.js:114180:72)\n    at tryCatcher (https://wealthelite.in/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise.attempt.Promise.try (https://wealthelite.in/__cypress/runner/cypress_runner.js:4338:29)\n    at retryOptions (https://wealthelite.in/__cypress/runner/cypress_runner.js:114212:70)\n    at tryCatcher (https://wealthelite.in/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise.attempt.Promise.try (https://wealthelite.in/__cypress/runner/cypress_runner.js:4338:29)\n    at whenStable (https://wealthelite.in/__cypress/runner/cypress_runner.js:143744:68)\n    at <unknown> (https://wealthelite.in/__cypress/runner/cypress_runner.js:143685:14)\n    at tryCatcher (https://wealthelite.in/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise._settlePromiseFromHandler (https://wealthelite.in/__cypress/runner/cypress_runner.js:1542:31)\n    at Promise._settlePromise (https://wealthelite.in/__cypress/runner/cypress_runner.js:1599:18)\n    at Promise._settlePromise0 (https://wealthelite.in/__cypress/runner/cypress_runner.js:1644:10)\n    at Promise._settlePromises (https://wealthelite.in/__cypress/runner/cypress_runner.js:1724:18)\n    at Promise._fulfill (https://wealthelite.in/__cypress/runner/cypress_runner.js:1668:18)\n    at <unknown> (https://wealthelite.in/__cypress/runner/cypress_runner.js:5473:46)\nFrom Your Spec Code:\n    at Context.eval (webpack://wealthelite/./cypress/e2e/Mutual/AUM_By_Fund_House.cy.js:56:29)",
+                "diff": null
+              },
+              "uuid": "8b3921cb-5155-4d7e-b0d4-ad62a7bcea6c",
+              "parentUUID": "e3421758-eb30-458c-9309-0d6c1f7bc705",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "79e7a3f2-125c-4453-9340-cac089fe75e3"
+          ],
+          "failures": [
+            "8ea6028f-d492-473e-b773-78805efe15f3",
+            "8b3921cb-5155-4d7e-b0d4-ad62a7bcea6c"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 36210,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "reports",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mochawesome/",
+        "reportFilename": "reports",
+        "html": true,
+        "json": true,
+        "overwrite": true,
+        "timestamp": "yyyy-mm-dd_HH-MM-ss",
+        "charts": true,
+        "inline": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

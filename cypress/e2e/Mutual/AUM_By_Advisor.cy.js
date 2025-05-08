@@ -1,6 +1,6 @@
 import '../../support/commands';
 
-describe('Between Date XIRR Report', () => {
+describe('AUM Report', () => {
 
   beforeEach(() => {
     cy.loginWithSession(); // restores or creates session

@@ -1,7 +1,7 @@
 import { Client } from 'pg';
 import '../../support/commands';
 
-describe('Validate the P&L Report ', () => {
+describe(' New FY Wise Report ', () => {
 
     beforeEach(() => {
         cy.loginWithSession(); // ✅ restores or creates session

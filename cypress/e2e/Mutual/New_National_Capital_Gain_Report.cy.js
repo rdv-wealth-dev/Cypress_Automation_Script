@@ -1,6 +1,6 @@
 import '../../support/commands';
 
-describe('Validate the P&L Report ', () => {
+describe('New National Capital Gain Report ', () => {
 
     beforeEach(() => {
         cy.loginWithSession(); // ✅ restores or creates session

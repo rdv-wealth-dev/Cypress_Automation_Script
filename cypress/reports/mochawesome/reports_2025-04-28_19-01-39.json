@@ -1,0 +1,223 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-04-28T13:29:43.387Z",
+    "end": "2025-04-28T13:31:39.792Z",
+    "duration": 116405,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "cd17f40b-2b0c-46aa-81ac-1e680913d7c4",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Mutual\\New_Between_date_XIRR.cy.js",
+      "file": "cypress\\e2e\\Mutual\\New_Between_date_XIRR.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+          "title": "Between Date XIRR Report",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "TC_001: Generate report with Client, All Funds, Manually",
+              "fullTitle": "Between Date XIRR Report TC_001: Generate report with Client, All Funds, Manually",
+              "timedOut": null,
+              "duration": 25251,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('input[placeholder=\"Search client\"]').type(clientName);\ncy.get('#loadClient > li').contains(clientName).click();\ncy.wait(3000);\ncy.get('#fromDate').clear().type(`${fromDate}{esc}`);\ncy.get('#toDate').clear().type(`${toDate}{esc}`);\ncy.get('select[name=\"ftype\"]').select('all');\ncy.get('#manually').check({\n  force: true\n});\ncy.intercept('POST', '/MutualFund/pl/xirr-report-data').as('xirr-report-data');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@xirr-report-data').its('response.statusCode').should('eq', 200);\ncy.get('.summery-inner-contaner').should('be.visible');\ncy.get('.report-result-panel > :nth-child(1) > :nth-child(2)').should('contain', clientName);",
+              "err": {},
+              "uuid": "fd8b2cb1-e1a5-4c18-8cb7-5a37aaf45f4e",
+              "parentUUID": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_002: Generate report with Client, Equity Funds, Manually",
+              "fullTitle": "Between Date XIRR Report TC_002: Generate report with Client, Equity Funds, Manually",
+              "timedOut": null,
+              "duration": 13783,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('input[placeholder=\"Search client\"]').type(clientName);\ncy.get('#loadClient > li').contains(clientName).click();\ncy.wait(3000);\ncy.get('#fromDate').clear().type(`${fromDate}{esc}`);\ncy.get('#toDate').clear().type(`${toDate}{esc}`);\ncy.get('select[name=\"ftype\"]').select('Equity');\ncy.get('#manually').check({\n  force: true\n});\ncy.intercept('POST', '/MutualFund/pl/xirr-report-data').as('xirr-report-data');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@xirr-report-data').its('response.statusCode').should('eq', 200);\ncy.get('.summery-inner-contaner').should('be.visible');\ncy.get('.report-result-panel > :nth-child(1) > :nth-child(2)').should('contain', clientName);",
+              "err": {},
+              "uuid": "88055c1a-27c6-4d85-9d1b-eaf11386a93a",
+              "parentUUID": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_003: Generate report with Client, Debt Funds, Manually",
+              "fullTitle": "Between Date XIRR Report TC_003: Generate report with Client, Debt Funds, Manually",
+              "timedOut": null,
+              "duration": 13994,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('input[placeholder=\"Search client\"]').type(clientName);\ncy.get('#loadClient > li').contains(clientName).click();\ncy.wait(3000);\ncy.get('#fromDate').clear().type(`${fromDate}{esc}`);\ncy.get('#toDate').clear().type(`${toDate}{esc}`);\ncy.get('select[name=\"ftype\"]').select('Debt');\ncy.get('#manually').check({\n  force: true\n});\ncy.intercept('POST', '/MutualFund/pl/xirr-report-data').as('xirr-report-data');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@xirr-report-data').its('response.statusCode').should('eq', 200);\ncy.get('.summery-inner-contaner').should('be.visible');\ncy.get('.report-result-panel > :nth-child(1) > :nth-child(2)').should('contain', clientName);",
+              "err": {},
+              "uuid": "7a7682b1-6ae7-4bbb-85cc-5fe630f82879",
+              "parentUUID": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_004: Generate report with Client, Hybrid Funds, Manually",
+              "fullTitle": "Between Date XIRR Report TC_004: Generate report with Client, Hybrid Funds, Manually",
+              "timedOut": null,
+              "duration": 13012,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('input[placeholder=\"Search client\"]').type(clientName);\ncy.get('#loadClient > li').contains(clientName).click();\ncy.wait(3000);\ncy.get('#fromDate').clear().type(`${fromDate}{esc}`);\ncy.get('#toDate').clear().type(`${toDate}{esc}`);\ncy.get('select[name=\"ftype\"]').select('Hybrid');\ncy.get('#manually').check({\n  force: true\n});\ncy.intercept('POST', '/MutualFund/pl/xirr-report-data').as('xirr-report-data');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@xirr-report-data').its('response.statusCode').should('eq', 200);\ncy.get('.summery-inner-contaner').should('be.visible');\ncy.get('.report-result-panel > :nth-child(1) > :nth-child(2)').should('contain', clientName);",
+              "err": {},
+              "uuid": "43ea1af2-f7c6-460a-a645-3fb73dd19952",
+              "parentUUID": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_005: Generate report with Client, Sole Oriented Funds, Manually",
+              "fullTitle": "Between Date XIRR Report TC_005: Generate report with Client, Sole Oriented Funds, Manually",
+              "timedOut": null,
+              "duration": 11395,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('input[placeholder=\"Search client\"]').type(clientName);\ncy.get('#loadClient > li').contains(clientName).click();\ncy.wait(3000);\ncy.get('#fromDate').clear().type(`${fromDate}{esc}`);\ncy.get('#toDate').clear().type(`${toDate}{esc}`);\ncy.get('select[name=\"ftype\"]').select('sol oriented');\ncy.get('#manually').check({\n  force: true\n});\ncy.intercept('POST', '/MutualFund/pl/xirr-report-data').as('xirr-report-data');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@xirr-report-data').its('response.statusCode').should('eq', 200);\ncy.get('.summery-inner-contaner').should('be.visible');\ncy.get('.report-result-panel > :nth-child(1) > :nth-child(2)').should('contain', clientName);",
+              "err": {},
+              "uuid": "d4b709f2-6bc7-4447-ad14-9ebf2e8179e3",
+              "parentUUID": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_006: Generate report with Client, Other Funds, Sensex",
+              "fullTitle": "Between Date XIRR Report TC_006: Generate report with Client, Other Funds, Sensex",
+              "timedOut": null,
+              "duration": 12332,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.get('select[name=\"selectViewBy\"]').select('Client');\ncy.get('input[placeholder=\"Search client\"]').type(clientName);\ncy.get('#loadClient > li').contains(clientName).click();\ncy.wait(3000);\ncy.get('#fromDate').clear().type(`${fromDate}{esc}`);\ncy.get('#toDate').clear().type(`${toDate}{esc}`);\ncy.get('select[name=\"ftype\"]').select('others');\ncy.get('#graph').check({\n  force: true\n});\ncy.intercept('POST', '/MutualFund/pl/xirr-report-data').as('xirr-report-data');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@xirr-report-data').its('response.statusCode').should('eq', 200);\ncy.get('.summery-inner-contaner').should('be.visible');\ncy.get('.report-result-panel > :nth-child(1) > :nth-child(2)').should('contain', clientName);",
+              "err": {},
+              "uuid": "be426e20-7c64-45dc-a135-b2387f86249f",
+              "parentUUID": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_007: Generate report with Family, All Funds, Manually",
+              "fullTitle": "Between Date XIRR Report TC_007: Generate report with Family, All Funds, Manually",
+              "timedOut": null,
+              "duration": 23242,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.get('select[name=\"selectViewBy\"]').select('Family');\ncy.wait(2000);\ncy.get('#loadClient').contains(familyName).click();\ncy.wait(3000);\ncy.get('#fromDate').clear().type(`${fromDate}{esc}`);\ncy.get('#toDate').clear().type(`${toDate}{esc}`);\ncy.get('select[name=\"ftype\"]').select('all');\ncy.get('#manually').check({\n  force: true\n});\ncy.intercept('POST', '/MutualFund/pl/xirr-report-data').as('xirr-report-data');\ncy.get('#btn_web').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@xirr-report-data').its('response.statusCode').should('eq', 200);\ncy.get('.summery-inner-contaner').should('be.visible');\n// Optional: if you have family details or title you can check it here\ncy.get('.report-result-panel > :nth-child(1) > :nth-child(2)').should('contain', familyName);",
+              "err": {},
+              "uuid": "eb779c85-c5c9-46a5-953d-cdbca60e4a05",
+              "parentUUID": "9b5a9979-4ac9-4d2c-a7ad-eba8b7e916e8",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fd8b2cb1-e1a5-4c18-8cb7-5a37aaf45f4e",
+            "88055c1a-27c6-4d85-9d1b-eaf11386a93a",
+            "7a7682b1-6ae7-4bbb-85cc-5fe630f82879",
+            "43ea1af2-f7c6-460a-a645-3fb73dd19952",
+            "d4b709f2-6bc7-4447-ad14-9ebf2e8179e3",
+            "be426e20-7c64-45dc-a135-b2387f86249f",
+            "eb779c85-c5c9-46a5-953d-cdbca60e4a05"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 113009,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "reports",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mochawesome/",
+        "reportFilename": "reports",
+        "html": true,
+        "json": true,
+        "overwrite": true,
+        "timestamp": "yyyy-mm-dd_HH-MM-ss",
+        "charts": true,
+        "inline": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

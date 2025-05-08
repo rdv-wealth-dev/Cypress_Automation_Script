@@ -1,0 +1,128 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-04-28T13:28:17.178Z",
+    "end": "2025-04-28T13:28:47.072Z",
+    "duration": 29894,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "262d84f9-6614-44d3-bec5-a7a09548cd5c",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Mutual\\New_AUM _Growth _Report.cy.js",
+      "file": "cypress\\e2e\\Mutual\\New_AUM _Growth _Report.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "7febbb4f-fed5-497f-b139-74a730eb246d",
+          "title": "Between Date XIRR Report",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "TC_01:Generate AUM Growth Reports (Financial Year Any) ",
+              "fullTitle": "Between Date XIRR Report TC_01:Generate AUM Growth Reports (Financial Year Any) ",
+              "timedOut": null,
+              "duration": 20066,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.wait(1000);\ncy.get('#noOfMonth').select('2024-2025');\n// cy.get('.modal-body > .btn').click()\ncy.intercept('POST', '/MutualFund/aum-growth/show-aum-report-data').as('show-aum-report-data');\ncy.contains('button', 'Show').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@show-aum-report-data').its('response.statusCode').should('eq', 200);\n// Example: validate the label for March 2025 exists\ncy.get('svg text').contains('Mar, 2025').should('exist');",
+              "err": {},
+              "uuid": "c412b54f-f284-4f63-aa37-a2258ef76844",
+              "parentUUID": "7febbb4f-fed5-497f-b139-74a730eb246d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC_01:Generate AUM Growth Reports (Last 5 years) ",
+              "fullTitle": "Between Date XIRR Report TC_01:Generate AUM Growth Reports (Last 5 years) ",
+              "timedOut": null,
+              "duration": 6961,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(baseUrl);\ncy.wait(1000);\ncy.get('#noOfMonth').select('5YEAR');\n// cy.get('.modal-body > .btn').click()\ncy.intercept('POST', '/MutualFund/aum-growth/show-aum-report-data').as('show-aum-report-data');\ncy.contains('button', 'Show').click();\n// Validate the API And the Reports Should be visible \ncy.wait('@show-aum-report-data').its('response.statusCode').should('eq', 200);\n// Example: validate the label for March 2025 exists\ncy.get('svg text').contains('AUM Growth Report Year Wise').should('exist');",
+              "err": {},
+              "uuid": "e7091e4d-e4b5-4a7a-a1ad-bec7f0420604",
+              "parentUUID": "7febbb4f-fed5-497f-b139-74a730eb246d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c412b54f-f284-4f63-aa37-a2258ef76844",
+            "e7091e4d-e4b5-4a7a-a1ad-bec7f0420604"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 27027,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "reports",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mochawesome/",
+        "reportFilename": "reports",
+        "html": true,
+        "json": true,
+        "overwrite": true,
+        "timestamp": "yyyy-mm-dd_HH-MM-ss",
+        "charts": true,
+        "inline": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

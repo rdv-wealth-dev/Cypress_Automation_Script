@@ -27,10 +27,18 @@ Cypress.Commands.add('loginWithSession', () => {
   cy.session('login-session', () => {
     cy.visit('https://wealthelite.in/arn-login');
     cy.get('input[name="username"]').type('redmoneyindore', { force: true });
-    cy.get('input[name="password"]').type('Abdul@2347', { force: true });
+    cy.get('input[name="password"]').type('Abdul@1247', { force: true });
     cy.get('button[type="submit"]').click();
     cy.wait(5000);
+   // cy.get('.modal-body > .btn').click();
     //cy.get('#mutual__NavItem').click({ force: true });
   });
 });
 
+Cypress.Commands.add('hideWhatsAppModalIfVisible', () => {
+  cy.get('body').then(($body) => {
+    if ($body.find('#whatsappOptInModal:visible').length > 0) {
+      cy.get('#whatsappOptInModal').invoke('hide');
+    }
+  });
+});
